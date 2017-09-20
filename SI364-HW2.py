@@ -10,7 +10,8 @@
 ## Edit the following Flask application code so that if you run the application locally and got to the URL http://localhost:5000/question, you see a form that asks you to enter your favorite number. Once you enter a number and submit it to the form, you should then see a web page that says "Double your favorite number is <number>". For example, if you enter 2 into the form, you should then see a page that says "Double your favorite number is 4". Careful about types in your Python code!
 ## You can assume a user will always enter a number only.
 
-from flask import Flask
+from flask import Flask, request
+import requests
 app = Flask(__name__)
 app.debug = True
 
@@ -18,6 +19,33 @@ app.debug = True
 def hello_to_you():
     return 'Hello!'
 
+@app.route('/question',methods= ['POST','GET'])
+def get_answer():
+	s = """<!DOCTYPE html>
+<html>
+<body>
+
+<form action="http://localhost:5000/result" method="GET">
+  What is your favorite number?<br>
+  <input type="number" name="Favorite Number" value="">
+  <br>
+  <input type="submit" value="Submit">
+</form> 
+
+</body>
+</html>""" 
+	return s
+
+@app.route('/result', methods= ['POST', 'GET'])
+def show_result():
+    if request.method == 'GET':
+        result = request.args
+        number = result.get('Favorite Number')
+        int_num = int(number)
+        calc = int_num * 2
+        str_calc = str(calc)
+
+        return 'Double your favorite number is ' + str_calc
 
 if __name__ == '__main__':
     app.run()
@@ -35,7 +63,8 @@ if __name__ == '__main__':
 # You can assume that a user will give you the type of input/response you expect in your form; you do not need to handle errors or user confusion. (e.g. if your form asks for a name, you can assume a user will type a reasonable name; if your form asks for a number, you can assume a user will type a reasonable number; if your form asks the user to select a checkbox, you can assume they will do that.)
 
 
-
+@app.route('/amelia', methods= ['POST', 'GET'])
+def 
 
 
 
