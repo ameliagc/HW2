@@ -1,5 +1,7 @@
 <!-- result return template for part 2 -->
 
-{% for r in grocerylist %}
-{{r}}', '
+I will buy you:<br>
+
+{% for r in grocerylist['food'] %}
+{{r}}<br>
 {% endfor %}
