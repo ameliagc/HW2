@@ -2,6 +2,7 @@
 ## SI 364 F17
 ## Due: September 24, 2017
 ## 500 points
+## Amelia Cacchione
 
 #####
 
@@ -10,7 +11,7 @@
 ## Edit the following Flask application code so that if you run the application locally and got to the URL http://localhost:5000/question, you see a form that asks you to enter your favorite number. Once you enter a number and submit it to the form, you should then see a web page that says "Double your favorite number is <number>". For example, if you enter 2 into the form, you should then see a page that says "Double your favorite number is 4". Careful about types in your Python code!
 ## You can assume a user will always enter a number only.
 
-from flask import Flask, request
+from flask import Flask, request, render_template
 import requests
 app = Flask(__name__)
 app.debug = True
@@ -47,9 +48,6 @@ def show_result():
 
         return 'Double your favorite number is ' + str_calc
 
-if __name__ == '__main__':
-    app.run()
-
 
 ## [PROBLEM 2]
 
@@ -63,9 +61,43 @@ if __name__ == '__main__':
 # You can assume that a user will give you the type of input/response you expect in your form; you do not need to handle errors or user confusion. (e.g. if your form asks for a name, you can assume a user will type a reasonable name; if your form asks for a number, you can assume a user will type a reasonable number; if your form asks the user to select a checkbox, you can assume they will do that.)
 
 
-@app.route('/amelia', methods= ['POST', 'GET'])
-def 
+@app.route('/grocerys', methods= ['POST', 'GET'])
+def get_grocery_list():
+  g = """<!DOCTYPE html>
+<html>
+<body>
 
+<form action="http://localhost:5000/grocerylist" method="GET">
+  What would you like me to get you at the grocery store?<br>
+  <input type="checkbox" name="food" value="red apples" checked="checked">Red Apples
+  <br>
+  <input type="checkbox" name="food" value="oreos" checked="checked">Oreos
+  <br>
+  <input type="checkbox" name="food" value="lettuce" checked="checked">Lettuce
+  <br>
+  <input type="checkbox" name="food" value="pasta" checked="checked">Pasta
+  <br>
+  <input type="checkbox" name="food" value="soda" checked="checked">Soda
+  <br>
+  <input type="submit" value="Submit">
+</form> 
+
+</body>
+</html>""" 
+  return g
+
+
+@app.route('/grocerylist', methods=['POST', 'GET'])
+def return_list():
+  if request.method == 'GET':
+        grocerylist = dict(request.args)
+
+        return render_template("grocerylist.html",grocerylist=grocerylist)
+        
+
+
+if __name__ == '__main__':
+    app.run()
 
 
 
